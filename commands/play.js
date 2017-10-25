@@ -8,13 +8,13 @@ const {
 	formatMention,
 	formatCode,
 	getQueue,
-	escapeDiscord,
-	logger
+	escapeDiscord
 } = require('../lib/common');
 const { oneLine } = require('common-tags');
 const Song = require('../lib/structures/song');
 
 const config = require('../config');
+const logger = config.logger;
 
 module.exports = class extends Command {
 	constructor(client) {
@@ -152,7 +152,7 @@ module.exports = class extends Command {
 		try {
 			list = await Song.fromSearch(query);
 		} catch (err) {
-			logger.err(err);
+			logger.error(err);
 			status.edit(`The following error occurred while looking for `);
 		}
 		let prompt = [
