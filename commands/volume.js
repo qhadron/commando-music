@@ -36,7 +36,7 @@ module.exports = class extends Command {
 		const vol = args.volume;
 		let queue = getQueue(msg.guild.id, msg.channel);
 		if (vol === -1) {
-			return msg.channel.send(`Current volume is ${formatCode(vol)}`);
+			return msg.channel.send(`Current volume is ${formatCode(queue.volume)}`);
 		} else {
 			queue.volume = vol / 100;
 			return msg.channel.send(`Set the volume to ${(queue.volume * 100).toFixed(1)}%`);
