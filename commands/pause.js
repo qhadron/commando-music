@@ -22,7 +22,7 @@ module.exports = class extends Command {
 	async run(msg) {
 		processMessage(msg);
 		let queue = queues.get(msg.guild.id);
-		if (queue) {
+		if (queue && queue.isPlaying) {
 			await queue.pause();
 			msg.say(
 				oneLine`
