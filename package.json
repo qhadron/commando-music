@@ -12,8 +12,8 @@
 		"debug": "nodemon example/basic.js"
 	},
 	"lint-staged": {
-		"*.{js,json,css}": ["prettier --write", "git add"],
-		"*.js": ["eslint --fix", "git add"]
+		"*.{js,json,css}": ["prettier --list-different --write"],
+		"*.js": ["eslint --fix"]
 	},
 	"dependencies": {
 		"common-tags": "^1.4.0",
