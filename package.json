@@ -12,8 +12,8 @@
 		"debug": "nodemon example/basic.js"
 	},
 	"lint-staged": {
-		"*.{js,json,css}": ["prettier --write", "git add"],
-		"*.js": ["eslint --fix", "git add"]
+		"*.{js,json,css}": ["prettier --list-different --write"],
+		"*.js": ["eslint --fix"]
 	},
 	"dependencies": {
 		"common-tags": "^1.4.0",
@@ -33,6 +33,7 @@
 		"chai": "^4.1.2",
 		"discord.js": "^11.2.1",
 		"discord.js-commando": "^0.9.0",
+		"ffmpeg-binaries": "^3.2.2-3",
 		"erlpack": "hammerandchisel/erlpack",
 		"eslint": "^4.9.0",
 		"eslint-config-prettier": "^2.6.0",

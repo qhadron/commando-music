@@ -34,7 +34,7 @@ module.exports = class extends Command {
 			return msg.say(oneLine`
 				There's nothing in the queue right now.
 				Try ${formatCommand(config.play.name)} to add some music!
-				`);
+			`);
 		}
 	}
 };

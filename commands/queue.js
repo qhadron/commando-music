@@ -33,11 +33,16 @@ module.exports = class extends Command {
 		let queue = queues.get(msg.guild.id);
 		if (queue) {
 			let songs = await queue.songs;
+			let isPlaying = await queue.isPlaying;
 			const embed = new RichEmbed()
 				.setTitle('Current Queue')
 				.setDescription(
-					oneLine`Singing in ${formatChannelName('#' + queue.voiceChannel.name)},
-					 speaking in ${formatChannelName('#' + queue.textChannel.name)}.
+					oneLine`Singing in ${formatChannelName(
+						'#' + (queue.voiceChannel ? queue.voiceChannel.name : '<nowhere>')
+					)},
+					 speaking in ${formatChannelName(
+							'#' + (queue.textChannel ? queue.textChannel.name : '<nowhere>')
+						)}.
 					 Volume is at ${(queue.volume * 100).toFixed(1)}%.`
 				)
 				.setColor('#ed2c56');
@@ -48,9 +53,9 @@ module.exports = class extends Command {
 				)} to queue more songs.`;
 			}
 			songs.forEach((song, idx) => {
-				const title = `${idx + 1}${idx == 0 ? `.(currently playing)` : '.'} ${formatTitle(
-					song.title
-				)}`;
+				const title = `${idx + 1}${isPlaying && idx == 0
+					? `.(currently playing)`
+					: '.'} ${formatTitle(song.title)}`;
 				let link;
 				if (song.query !== song.url && !isURL(song.query)) {
 					link = `[${formatTitle(escapeDiscord(song.query))}](${escapeUrl(song.url)})`;
@@ -69,7 +74,7 @@ module.exports = class extends Command {
 			return msg.say(oneLine`
 				There's nothing in the queue right now.
 				Try ${formatCommand(config.play.name)} to add some music!
-				`);
+			`);
 		}
 	}
 };

@@ -28,9 +28,9 @@ module.exports = class extends Command {
 			await queue.skip();
 		} else {
 			return msg.say(oneLine`
-				There's nothing in the queue right now.
+				Nothing's playing right now!
 				Try ${formatCommand(config.play.name)} to add some music!
-				`);
+			`);
 		}
 	}
 };
