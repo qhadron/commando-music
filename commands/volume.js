@@ -1,6 +1,6 @@
 const { Command } = require('discord.js-commando');
 
-const { processMessage, getQueue } = require('../lib/common');
+const { processMessage, getQueue, formatCode } = require('../lib/common');
 
 const config = require('../config');
 
@@ -34,9 +34,9 @@ module.exports = class extends Command {
 	async run(msg, args) {
 		processMessage(msg);
 		const vol = args.volume;
-		let queue = getQueue(msg.guild.id);
+		let queue = getQueue(msg.guild.id, msg.channel);
 		if (vol === -1) {
-			return msg.channel.send;
+			return msg.channel.send(`Current volume is ${formatCode(queue.volume)}`);
 		} else {
 			queue.volume = vol / 100;
 			return msg.channel.send(`Set the volume to ${(queue.volume * 100).toFixed(1)}%`);

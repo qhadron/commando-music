@@ -64,7 +64,7 @@ module.exports = class extends Command {
 				}
 				const body = [];
 				if (song.author) {
-					body.push(`Requested by ${song.author}.\n`);
+					body.push(`Requested by ${song.author}.`);
 				}
 				body.push(`Open ${link} in your browser.`);
 				embed.addField(title, body.join('\n'));

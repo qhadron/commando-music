@@ -37,6 +37,10 @@ module.exports = class extends Command {
 			}
 			if (args.trim().toLowerCase() === 'all') {
 				queue.clear();
+				return msg.reply(oneLine`
+					Removed all the songs in the current queue!
+					Use ${formatCommand(config.play.name)} to add more songs!
+				`);
 			} else {
 				try {
 					args = args
@@ -51,11 +55,10 @@ module.exports = class extends Command {
 				for (let arg of args) {
 					if (arg < 1 || arg > (await queue.size)) {
 						return msg.reply(
-							`, the number ${formatCommand(
-								arg
-							)} you entered is out of range of the current queue! Use ${formatCommand(
-								config.queue.name
-							)} to see what's in the queue.`
+							oneLine`, the number ${formatCommand(arg)} you entered
+								is out of range of the current queue!
+								Use ${formatCommand(config.queue.name)}
+								to see what's in the queue.`
 						);
 					}
 					let removed = await queue.remove(arg - 1);
