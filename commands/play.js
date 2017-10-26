@@ -72,7 +72,7 @@ module.exports = class extends Command {
 				}
 			} else {
 				let query = args.join(' ');
-				await status.edit(`Looking for ${query}...`);
+				await status.edit(`Looking for ${formatCode(query)}...`);
 				result = await this._handleSearch(query, queue, msg, status);
 				if (!result) {
 					status.edit(
