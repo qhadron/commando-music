@@ -78,14 +78,17 @@ const options = {
 	formatTitle(title) {
 		return `**${title}**`;
 	},
-	formatChannelName(name) {
-		return `__**${name}**__`;
+	formatTextChannelName(name) {
+		return `__**#${name}**__`;
+	},
+	formatVoiceChannelName(name) {
+		return `__**:speaker:${name}**__`;
 	},
 	formatCommand(cmd) {
 		return `\`${cmd}\``;
 	},
 	formatUsername(username) {
-		return `**@${username}**`;
+		return `**<@${username}>**`;
 	},
 	formatCode(code) {
 		return `\`${code}\``;
@@ -103,10 +106,6 @@ const options = {
 	 * @return {RichEmbed} discord.js RichEmbed
 	*/
 	songInfoAsEmbed(song, client, message) {
-		const embed = new RichEmbed();
-		embed
-			.setAuthor(message, client.displayAvatarURL)
-			songInfoAsEmbed(song, client, message) {
 		const embed = new RichEmbed();
 		embed
 			.setAuthor(message, client.displayAvatarURL)
