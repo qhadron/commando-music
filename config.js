@@ -106,19 +106,20 @@ const options = {
 		const embed = new RichEmbed();
 		embed
 			.setAuthor(message, client.displayAvatarURL)
-			.setDescription(
-				`${song.duration ? `\\[${song.duration}\\]` : ''} [${options.formatTitle(
-					song.title
-				)}](${song.url})${song.author
-					? `, requested by ${options.formatUsername(song.author)}`
-					: ''}.`
-			)
+			songInfoAsEmbed(song, client, message) {
+		const embed = new RichEmbed();
+		embed
+			.setAuthor(message, client.displayAvatarURL)
+			.addField('Title', song.title, true)
+			.addField('Length', song.duration, true)
+			.addField('Source', song.url, true)
+			.addField('Requested by', song.author, true)
 			.setColor('#ed2c56');
 		if (song.thumbnail) embed.setThumbnail(song.thumbnail);
 		return embed;
 	},
 	logger: console
-};
+	};
 
 options.play.throttling = options.throttling;
 options.pause.throttling = options.throttling;
