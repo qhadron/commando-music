@@ -4,6 +4,10 @@ const { processMessage, getQueue, formatCode } = require('../lib/common');
 
 const config = require('../config');
 
+function formatVolume(volume) {
+	return formatCode((volume * 100).toFixed(1) + '%');
+}
+
 module.exports = class extends Command {
 	constructor(client) {
 		super(client, {
@@ -36,10 +40,10 @@ module.exports = class extends Command {
 		const vol = args.volume;
 		let queue = getQueue(msg.guild.id, msg.channel);
 		if (vol === -1) {
-			return msg.channel.send(`Current volume is ${formatCode(queue.volume)}`);
+			return msg.channel.send(`Current volume is ${formatVolume(queue.volume)}`);
 		} else {
 			queue.volume = vol / 100;
-			return msg.channel.send(`Set the volume to ${(queue.volume * 100).toFixed(1)}%`);
+			return msg.channel.send(`Set the volume to ${formatVolume(queue.volume)}`);
 		}
 	}
 };

@@ -96,7 +96,8 @@ const options = {
 	 * @param {string} song.title title of song (i.e. video title / filename)
 	 * @param {string} song.query user's search terms when queueing this song (may be same as url)
 	 * @param {string} song.thumbnail thumbnail of song
-	 * @param {string?} song.author person who queued the song may be null
+	 * @param {string?} song.duration formatted duration of song (may be null)
+	 * @param {string?} song.author person who queued the song (may be null)
 	 * @param {Client} client the bot's discord.js.ClientUser
 	 * @param {string?} message a message that sometimes needs to be displayed to the user
 	 * @return {RichEmbed} discord.js RichEmbed
@@ -105,18 +106,24 @@ const options = {
 		const embed = new RichEmbed();
 		embed
 			.setAuthor(message, client.displayAvatarURL)
-			.setThumbnail(song.thumbnail)
 			.setDescription(
-				`[${options.formatTitle(song.title)}](${song.url})${song.author
+				`${song.duration ? `\\[${song.duration}\\]` : ''} [${options.formatTitle(
+					song.title
+				)}](${song.url})${song.author
 					? `, requested by ${options.formatUsername(song.author)}`
 					: ''}.`
 			)
 			.setColor('#ed2c56');
+		if (song.thumbnail) embed.setThumbnail(song.thumbnail);
 		return embed;
 	},
 	logger: console
 };
 
 options.play.throttling = options.throttling;
+options.pause.throttling = options.throttling;
+options.queue.throttling = options.throttling;
+options.remove.throttling = options.throttling;
+options.skip.throttling = options.throttling;
 
 module.exports = options;
