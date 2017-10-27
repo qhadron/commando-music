@@ -78,14 +78,17 @@ const options = {
 	formatTitle(title) {
 		return `**${title}**`;
 	},
-	formatChannelName(name) {
-		return `__**${name}**__`;
+	formatTextChannelName(name) {
+		return `__**<#${name}>**__`;
+	},
+	formatVoiceChannelName(name) {
+		return `__**:speaker:${name}**__`;
 	},
 	formatCommand(cmd) {
 		return `\`${cmd}\``;
 	},
 	formatUsername(username) {
-		return `**@${username}**`;
+		return `**<@${username}>**`;
 	},
 	formatCode(code) {
 		return `\`${code}\``;
@@ -106,19 +109,16 @@ const options = {
 		const embed = new RichEmbed();
 		embed
 			.setAuthor(message, client.displayAvatarURL)
-			.setDescription(
-				`${song.duration ? `\\[${song.duration}\\]` : ''} [${options.formatTitle(
-					song.title
-				)}](${song.url})${song.author
-					? `, requested by ${options.formatUsername(song.author)}`
-					: ''}.`
-			)
+			.addField('Title', song.title, true)
+			.addField('Length', song.duration, true)
+			.addField('Source', song.url, true)
+			.addField('Requested by', song.author, true)
 			.setColor('#ed2c56');
 		if (song.thumbnail) embed.setThumbnail(song.thumbnail);
 		return embed;
 	},
 	logger: console
-};
+	};
 
 options.play.throttling = options.throttling;
 options.pause.throttling = options.throttling;

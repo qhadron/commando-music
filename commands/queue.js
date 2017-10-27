@@ -5,7 +5,8 @@ const { oneLine } = require('common-tags');
 const {
 	processMessage,
 	formatTitle,
-	formatChannelName,
+	formatTextChannelName,
+	formatVoiceChannelName,
 	formatCommand,
 	escapeDiscord,
 	escapeUrl,
@@ -37,11 +38,11 @@ module.exports = class extends Command {
 			const embed = new RichEmbed()
 				.setTitle('Current Queue')
 				.setDescription(
-					oneLine`Singing in ${formatChannelName(
-						'#' + (queue.voiceChannel ? queue.voiceChannel.name : '<nowhere>')
+					oneLine`Singing in ${formatVoiceChannelName(
+						(queue.voiceChannel ? queue.voiceChannel.name : '<nowhere>')
 					)},
-					 speaking in ${formatChannelName(
-							'#' + (queue.textChannel ? queue.textChannel.name : '<nowhere>')
+					 speaking in ${formatTextChannelName(
+							(queue.textChannel ? queue.textChannel.name : '<nowhere>')
 						)}.
 					 Volume is at ${(queue.volume * 100).toFixed(1)}%.`
 				)
