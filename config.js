@@ -79,7 +79,7 @@ const options = {
 		return `**${title}**`;
 	},
 	formatTextChannelName(name) {
-		return `__**#${name}**__`;
+		return `__**<#${name}>**__`;
 	},
 	formatVoiceChannelName(name) {
 		return `__**:speaker:${name}**__`;
