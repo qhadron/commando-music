@@ -8,7 +8,9 @@ const {
 	formatMention,
 	formatCode,
 	getQueue,
-	escapeDiscord
+	escapeDiscord,
+	block,
+	sendSongInfo
 } = require('../lib/common');
 const { oneLine } = require('common-tags');
 const Song = require('../lib/structures/song');
@@ -43,13 +45,13 @@ module.exports = class extends Command {
 		processMessage(msg);
 		// start typing to indicate handling response
 		msg.channel.startTyping();
-		let status = await msg.say(`Enqueueing ${args.join(' ')}...`);
+		let status = await msg.say(`Playing ${args.join(' ')}...`);
 
 		try {
 			let queue = getQueue(msg.guild.id, msg.channel);
 
 			if (queue.voiceChannel && !queue.voiceChannel.members.has(msg.author.id)) {
-				return status.edit(
+				return await status.edit(
 					`${formatMention(
 						msg.author
 					)}, you're not in my voice channel! Stop messing around.`
@@ -62,7 +64,7 @@ module.exports = class extends Command {
 				for (let query of args) {
 					result = await this._handleURL(query, queue, msg);
 					if (!result) {
-						status.edit(
+						await status.edit(
 							`${formatMention(
 								msg.author
 							)}, I couldn't find a song from your url ${formatCode(query)}. Sorry!`
@@ -75,7 +77,7 @@ module.exports = class extends Command {
 				await status.edit(`Looking for ${formatCode(query)}...`);
 				result = await this._handleSearch(query, queue, msg, status);
 				if (!result) {
-					status.edit(
+					await status.edit(
 						`${formatMention(msg.author)}, I couldn't recognize ${formatCode(
 							query
 						)}. Sorry!`
@@ -107,6 +109,8 @@ module.exports = class extends Command {
 				}
 
 				await queue.play();
+			} else {
+				sendSongInfo(queue.textChannel, 'Now Playing...', queue.currentSong);
 			}
 		} finally {
 			msg.channel.stopTyping();
@@ -134,9 +138,8 @@ module.exports = class extends Command {
 		} catch (err) {
 			logger.error(err);
 			msg.reply(
-				`I got the following error when trying to get your file:\`\`\`\n${escapeDiscord(
-					err.toString()
-				)}\n\`\`\``
+				oneLine`I got the following error when trying to get your file:
+				${block`${escapeDiscord(err.toString())}`}`
 			);
 			return false;
 		}
@@ -153,7 +156,10 @@ module.exports = class extends Command {
 			list = await Song.fromSearch(query);
 		} catch (err) {
 			logger.error(err);
-			status.edit(`The following error occurred while looking for `);
+			await status.edit(
+				oneLine`The following error occurred while looking for ${formatCode(query)}:
+				${block`${escapeDiscord(err)}`}`
+			);
 		}
 		let prompt = [
 			`Found the following results:`,
@@ -195,7 +201,7 @@ module.exports = class extends Command {
 			await queue.enqueue(list[choice].song, msg.author);
 			return true;
 		} else {
-			await msg.reply(`Cancelled search for ${formatCode(query)}...`);
+			await msg.reply(`cancelled search for ${formatCode(query)}...`);
 			return false;
 		}
 	}
