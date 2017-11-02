@@ -1,5 +1,9 @@
 const { RichEmbed } = require('discord.js');
 
+const isURL = function(string) {
+	return /^https?:\/\//i.test(string);
+};
+
 const options = {
 	group: 'music',
 	groupDescription: 'Music commands',
@@ -111,14 +115,14 @@ const options = {
 			.setAuthor(message, client.displayAvatarURL)
 			.addField('Title', song.title, true)
 			.addField('Length', song.duration, true)
-			.addField('Source', song.url, true)
+			.addField('Source', isURL(song.query) ? song.query : song.url, true)
 			.addField('Requested by', song.author, true)
 			.setColor('#ed2c56');
 		if (song.thumbnail) embed.setThumbnail(song.thumbnail);
 		return embed;
 	},
 	logger: console
-	};
+};
 
 options.play.throttling = options.throttling;
 options.pause.throttling = options.throttling;
