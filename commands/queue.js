@@ -39,10 +39,10 @@ module.exports = class extends Command {
 				.setTitle('Current Queue')
 				.setDescription(
 					oneLine`Singing in ${formatVoiceChannelName(
-						(queue.voiceChannel ? queue.voiceChannel.name : '<nowhere>')
+						queue.voiceChannel ? queue.voiceChannel.name : '<nowhere>'
 					)},
 					 speaking in ${formatTextChannelName(
-							(queue.textChannel ? queue.textChannel.name : '<nowhere>')
+							queue.textChannel ? queue.textChannel.name : '<nowhere>'
 						)}.
 					 Volume is at ${(queue.volume * 100).toFixed(1)}%.`
 				)

@@ -10,7 +10,7 @@ const {
 	getQueue,
 	escapeDiscord,
 	block,
-	sendSongInfo
+	sendNowPlaying
 } = require('../lib/common');
 const { oneLine } = require('common-tags');
 const Song = require('../lib/structures/song');
@@ -110,7 +110,7 @@ module.exports = class extends Command {
 
 				await queue.play();
 			} else {
-				sendSongInfo(queue.textChannel, 'Now Playing...', queue.currentSong);
+				sendNowPlaying(msg.textChannel, queue.currentSong);
 			}
 		} finally {
 			msg.channel.stopTyping();
