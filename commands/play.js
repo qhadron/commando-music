@@ -110,7 +110,7 @@ module.exports = class extends Command {
 
 				await queue.play();
 			} else {
-				sendNowPlaying(msg.textChannel, queue.currentSong);
+				sendNowPlaying(msg.channel, queue.currentSong);
 			}
 		} finally {
 			msg.channel.stopTyping();
@@ -146,7 +146,7 @@ module.exports = class extends Command {
 		if (!list || list.length === 0) {
 			return false;
 		}
-		await Promise.all(list.map(song => queue.enqueue(song, msg.author)));
+		await queue.enqueue(list, msg.author);
 		return true;
 	}
 
